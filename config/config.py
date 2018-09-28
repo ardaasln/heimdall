@@ -1,0 +1,7 @@
+SECRET_KEY = 'dev'
+MYSQL_HOST = 'localhost'
+MYSQL_PORT = 3306
+MYSQL_USER = 'root'
+MYSQL_DB = 'heimdall'
+MYSQL_PASSWD = '123456'
+MYSQL_CHARSET = 'utf8'
