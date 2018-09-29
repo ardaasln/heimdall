@@ -11,6 +11,6 @@ setup(
         'cerberus',
         'pymysql',
         'bcrypt',
-        'jwt'
+        'pyjwt'
     ],
 )

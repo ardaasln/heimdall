@@ -47,7 +47,6 @@ class User:
 
     def jwt_payload(self) -> dict:
         return {
-            "account_id": self.account_id,
             "fullname": self.fullname,
             "email": self.email,
             "enabled": self.enabled,

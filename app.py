@@ -6,7 +6,7 @@ from src.api.http import Http
 app = Flask(__name__)
 app.wsgi_app = Http(app.wsgi_app)
 app.register_error_handler(CustomError, handle_custom_error)
-app.config.from_pyfile('./config/config.py', silent=True)
+app.config.from_pyfile('./config/config_dev.py', silent=True)
 
 from src.api.resource.user import bp
 app.register_blueprint(bp)
