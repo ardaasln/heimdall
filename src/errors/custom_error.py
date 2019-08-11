@@ -12,4 +12,3 @@ class CustomError(Exception):
         rv = dict()
         rv['exception'] = self.message
         return rv
-

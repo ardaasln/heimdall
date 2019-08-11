@@ -11,6 +11,7 @@ setup(
         'cerberus',
         'pymysql',
         'bcrypt',
-        'pyjwt'
+        'pyjwt',
+        'flask-cors'
     ],
 )
