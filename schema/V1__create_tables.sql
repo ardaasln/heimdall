@@ -11,5 +11,5 @@ CREATE TABLE `user` (
   `last_login_ip` varchar(255) DEFAULT NULL,
   `registration_ip` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `unq_email` (`email`),
+  UNIQUE KEY `unq_email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
