@@ -1,8 +1,8 @@
 CREATE TABLE `user` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `fullname` varchar(180) DEFAULT NULL,
-  `email` varchar(180) NOT NULL DEFAULT '',
-  `password` varchar(255) NOT NULL DEFAULT '',
+  `username` varchar(180) NOT NULL,
+  `email` varchar(180) NOT NULL,
+  `password` varchar(255) NOT NULL,
   `enabled` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `roles` text NOT NULL,
   `email_verified` tinyint(1) unsigned NOT NULL DEFAULT '0',

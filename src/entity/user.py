@@ -4,7 +4,7 @@ import json
 class User:
     def __init__(self, data: dict):
         self.id = data.get("id")
-        self.fullname = data.get("fullname")
+        self.username = data.get("username")
         self.email = data.get("email")
         self.password = data.get("password")
         self.enabled = data.get("enabled")
@@ -47,7 +47,7 @@ class User:
 
     def jwt_payload(self) -> dict:
         return {
-            "fullname": self.fullname,
+            "username": self.username,
             "email": self.email,
             "enabled": self.enabled,
             "roles": self.roles,
@@ -59,7 +59,7 @@ class User:
     def to_dict(self) -> dict:
         return {
             "id": self.id,
-            "fullname": self.fullname,
+            "username": self.username,
             "email": self.email,
             "enabled": self.enabled,
             "roles": self.roles,

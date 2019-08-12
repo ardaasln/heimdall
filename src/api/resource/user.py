@@ -15,7 +15,7 @@ def register():
     """
 
     body = validate({
-        "fullname": field("string", maxlength=100),
+        "username": field("string", maxlength=180, required=True, empty=False, nullable=False),
         "email": field("email"),
         "password": field("password"),
         "tos": field("tos")

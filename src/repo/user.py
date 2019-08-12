@@ -10,12 +10,12 @@ def insert(user: User):
 
     get_db()
 
-    sql = "INSERT INTO user (fullname, email, password, enabled, roles,"
+    sql = "INSERT INTO user (username, email, password, enabled, roles,"
     sql = "{} email_verified, ts_registration, last_login_ip, registration_ip".format(sql)
     sql = "{} ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)".format(sql)
 
     args = (
-        user.fullname, user.email, user.password, user.enabled, user._roles,
+        user.username, user.email, user.password, user.enabled, user._roles,
         user.email_verified, user.ts_registration, user._last_login_ip, user._registration_ip
     )
 
