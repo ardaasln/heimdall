@@ -9,7 +9,7 @@ from src.errors.custom_error import CustomError
 from typing import Union
 from src.util.jwt_ops import encode, decode
 from jwt import InvalidTokenError
-from src.service.email import send_verification_email
+from src.service.email import send_verification_email, send_forgot_password_email
 
 
 def register(user: User):
@@ -81,7 +81,7 @@ def forgot_password(email: str):
             status_code=401,
         )
 
-    # Send a mail with jwt payload
+    send_forgot_password_email(user.email, encode(user.jwt_payload(), current_app.config["JWT_SECRET"], current_app.config["JWT_TTL"]), user.fullname)
 
 
 def reset_password(email: str, new_password: str):
