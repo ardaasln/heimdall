@@ -28,7 +28,7 @@ def register(user: User):
         insert(user)
     except IntegrityError as e:
         raise CustomError(
-            message="Bu e-mail ile zaten bir kullanici var",
+            message="Bu e-mail veya kullanici adi ile zaten bir kullanici var",
             status_code=400,
         )
 
