@@ -3,6 +3,8 @@ from botocore.exceptions import ClientError
 from pyquery import PyQuery as pq
 from flask import current_app
 
+# TODO do not repeat boto3 client send_email
+
 
 def send_verification_email(destination: str, token: str):
     """
