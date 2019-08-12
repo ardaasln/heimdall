@@ -9,6 +9,7 @@ from src.errors.custom_error import CustomError
 from typing import Union
 from src.util.jwt_ops import encode, decode
 from jwt import InvalidTokenError
+from src.service.email import send_verification_email
 
 
 def register(user: User):
@@ -33,7 +34,7 @@ def register(user: User):
 
     current_app.logger.debug('User with email {} registered'.format(user.email))
 
-    # Send event to notification service for email validation
+    send_verification_email(user.email, encode(user.jwt_payload(), current_app.config["JWT_SECRET"], current_app.config["JWT_TTL"]))
 
 
 def login(email: str, password: str, last_login_ip: list) -> str:

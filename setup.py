@@ -12,6 +12,9 @@ setup(
         'pymysql',
         'bcrypt',
         'pyjwt',
-        'flask-cors'
+        'flask-cors',
+        'pyquery',
+        'boto3',
+        'botocore'
     ],
 )
