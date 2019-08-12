@@ -1,6 +1,6 @@
 from src.api.validator import validate, field
 from flask import Blueprint, request, jsonify, g
-from src.service.user import forgot_password as user_forgot_password, login as user_login, register as user_register, reset_password as user_reset_password, verify as user_verify
+from src.service.user import forgot_password as user_forgot_password, login as user_login, register as user_register, reset_password as user_reset_password, verify as user_verify, resend_verification_email as user_resend_verification_email
 from src.errors.custom_error import CustomError
 from src.entity.user import User
 from src.api.http import Http
@@ -97,3 +97,18 @@ def verify_email():
     user_verify(request.query_string.decode("utf-8").split("=")[-1])
 
     return "Email Verified"
+
+
+@bp.route("/account/resend-verification-email", methods=['POST'])
+def verify_email():
+    """
+    Resends the verification email
+    """
+
+    body = validate({
+        "email": field("password")
+    }, request.get_json(force=True, silent=True))
+
+    user_resend_verification_email(body["email"])
+
+    return "Resent Verification Email"

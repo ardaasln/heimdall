@@ -114,3 +114,19 @@ def verify(token: str):
     update_email_verified(decoded["email"], 1)
 
     current_app.logger.debug("Email verified field changed for user {} to {}".format(decoded["email"], 1))
+
+
+def resend_verification_email(email: str):
+    """
+    Fetches the given user from db and resends verification email
+    """
+
+    user: Union[None, User] = find_by_email(email)
+
+    if user is None:
+        raise CustomError(
+            message="User not found",
+            status_code=401,
+        )
+
+    send_verification_email(user.email, encode(user.jwt_payload(), current_app.config["JWT_SECRET"], current_app.config["JWT_TTL"]))
