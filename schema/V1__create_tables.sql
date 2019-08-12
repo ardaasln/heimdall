@@ -12,5 +12,6 @@ CREATE TABLE `user` (
   `registration_ip` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `unq_email` (`email`),
-  UNIQUE KEY `unq_username` (`username`)
+  UNIQUE KEY `unq_username` (`username`),
+  INDEX `idx_ts_create` (`ts_create` DESC)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

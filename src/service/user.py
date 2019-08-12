@@ -81,7 +81,7 @@ def forgot_password(email: str):
             status_code=401,
         )
 
-    send_forgot_password_email(user.email, encode(user.jwt_payload(), current_app.config["JWT_SECRET"], current_app.config["JWT_TTL"]), user.fullname)
+    send_forgot_password_email(user.email, encode(user.jwt_payload(), current_app.config["JWT_SECRET"], current_app.config["JWT_TTL"]), user.username)
 
 
 def reset_password(email: str, new_password: str):
