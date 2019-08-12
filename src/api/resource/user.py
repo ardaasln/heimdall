@@ -23,7 +23,7 @@ def register():
 
     if not body["tos"]:
         raise CustomError(
-            message="ToS is not accepted.",
+            message="Servis kosullarini kabul etmeniz gerekmektedir",
             status_code=400
         )
 
@@ -100,7 +100,7 @@ def verify_email():
 
 
 @bp.route("/account/resend-verification-email", methods=['POST'])
-def verify_email():
+def resend_verification_email():
     """
     Resends the verification email
     """

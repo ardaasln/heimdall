@@ -62,7 +62,7 @@ class Http(object):
 
         if not skip:
             raise CustomError(
-                message="Access forbidden",
+                message="Erisim yetkiniz yok",
                 status_code=403,
             )
 

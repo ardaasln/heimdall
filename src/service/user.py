@@ -28,7 +28,7 @@ def register(user: User):
         insert(user)
     except IntegrityError as e:
         raise CustomError(
-            message="User already registered",
+            message="Bu e-mail ile zaten bir kullanici var",
             status_code=400,
         )
 
@@ -47,17 +47,17 @@ def login(email: str, password: str, last_login_ip: list) -> str:
 
     if user is None or not check(password, user.password):
         raise CustomError(
-            message="Wrong credentials",
+            message="Hatali mail veya sifre",
             status_code=401,
         )
     elif not user.enabled:
         raise CustomError(
-            message="User is unauthorized by system admins",
+            message="Erisiminiz kisitlanmistir",
             status_code=401,
         )
     elif not user.email_verified:
         raise CustomError(
-            message="User's email is not verified.",
+            message="Mail adresiniz dogrulanmamistir",
             status_code=401,
         )
 
@@ -77,7 +77,7 @@ def forgot_password(email: str):
 
     if user is None:
         raise CustomError(
-            message="User not found",
+            message="Boyle bir kullanici bulunamadi",
             status_code=401,
         )
 
@@ -125,7 +125,7 @@ def resend_verification_email(email: str):
 
     if user is None:
         raise CustomError(
-            message="User not found",
+            message="Kullanici bulunamadi",
             status_code=401,
         )
 
