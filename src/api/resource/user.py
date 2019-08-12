@@ -106,7 +106,7 @@ def resend_verification_email():
     """
 
     body = validate({
-        "email": field("password")
+        "email": field("email")
     }, request.get_json(force=True, silent=True))
 
     user_resend_verification_email(body["email"])
