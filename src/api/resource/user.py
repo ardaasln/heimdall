@@ -8,6 +8,11 @@ from src.api.http import Http
 bp = Blueprint("user", __name__)
 
 
+@bp.route("/account/", methods=['GET'])
+def health_check():
+    return "ok"
+
+
 @bp.route("/account/register", methods=['POST'])
 def register():
     """
