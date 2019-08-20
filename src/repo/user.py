@@ -1,6 +1,8 @@
+import json
 from flask import g
 from src.entity.user import User
 from src.repo.db import get_db, close_db
+from typing import Union
 
 
 def insert(user: User):
@@ -24,7 +26,7 @@ def insert(user: User):
     close_db()
 
 
-def find_by_email(email: str) -> User:
+def find_by_email(email: str) -> Union[User, None]:
     """
     Returns the user given email
     """
@@ -32,6 +34,24 @@ def find_by_email(email: str) -> User:
     get_db()
 
     g.cursor.execute("SELECT * FROM user WHERE email = %s", [email])
+    row = g.cursor.fetchone()
+
+    close_db()
+
+    if row is None:
+        return None
+
+    return User(row)
+
+
+def find_by_id(user_id: int) -> Union[User, None]:
+    """
+    Returns the user given id
+    """
+
+    get_db()
+
+    g.cursor.execute("SELECT * FROM user WHERE id = %s", [user_id])
     row = g.cursor.fetchone()
 
     close_db()
@@ -83,3 +103,56 @@ def update_password(email: str, password: str):
 
     close_db()
 
+
+def update_user(user: User):
+    """
+    Updates the password field of a user
+    """
+
+    get_db()
+
+    args = (user.enabled, json.dumps(user.roles), user.email_verified, user.id)
+
+    g.cursor.execute("UPDATE user SET enabled = %s, roles = %s, email_verified = %s WHERE id = %s", args)
+
+    close_db()
+
+
+def list_users(params: dict):
+    """
+    Fetches users wrt given parameters
+    """
+    args = []
+    where_statements = []
+
+    if params.get("name"):
+        where_statements.append("(username LIKE %s OR email LIKE %s)")
+        args.append("%" + params.get("name") + "%")
+        args.append("%" + params.get("name") + "%")
+
+    limit = params["size"]
+    offset = limit * (params["page"] - 1)
+    args.extend([limit, offset])
+
+    sql_where = ""
+    if where_statements:
+        sql_where = "WHERE {}".format(" AND ".join(where_statements))
+
+    sql = "SELECT SQL_CALC_FOUND_ROWS * " \
+          "FROM user " \
+          "{} " \
+          "ORDER BY {} {} " \
+          "LIMIT %s OFFSET %s".format(sql_where, params["order_by"], params["order_dir"])
+
+    get_db()
+
+    g.cursor.execute(sql, args)
+    rows = g.cursor.fetchall()
+
+    sql = "SELECT FOUND_ROWS() as total_row_count"
+    g.cursor.execute(sql)
+    total_row_count = g.cursor.fetchone()["total_row_count"]
+
+    close_db()
+
+    return rows, total_row_count

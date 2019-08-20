@@ -1,9 +1,10 @@
 from src.api.validator import validate, field
 from flask import Blueprint, request, jsonify, g
-from src.service.user import forgot_password as user_forgot_password, login as user_login, register as user_register, reset_password as user_reset_password, verify as user_verify, resend_verification_email as user_resend_verification_email
+from src.service.user import forgot_password as user_forgot_password, login as user_login, register as user_register, reset_password as user_reset_password, verify as user_verify, resend_verification_email as user_resend_verification_email, update_user as user_update_user
 from src.errors.custom_error import CustomError
 from src.entity.user import User
 from src.api.http import Http
+from src.repo.user import list_users as repo_list_users
 
 bp = Blueprint("user", __name__)
 
@@ -117,3 +118,47 @@ def resend_verification_email():
     user_resend_verification_email(body["email"])
 
     return "Resent Verification Email"
+
+
+@bp.route("/account/users", methods=['GET'])
+def list_users():
+    """
+    Returns users according to given filters
+    """
+    token = request.headers.get("AUTHORIZATION")
+    Http.auth(token, ["ROLE_ADMIN"])
+
+    params = {
+        "page": request.args.get("page", default=1, type=int),
+        "size": request.args.get("size", default=100, type=int),
+        "name": request.args.get("name", type=str),
+        "order_by": request.args.get("order_by", default="id", type=str),
+        "order_dir": request.args.get("order_dir", default="DESC", type=str),
+    }
+
+    users, total_row_count = repo_list_users(params)
+
+    return jsonify({
+        "data": users,
+        "page": {
+            "current": params["page"],
+            "total": total_row_count,
+            "size": params["size"]
+        }
+    })
+
+
+@bp.route("/account/user/<user_id>", methods=['PUT'])
+def update_user(user_id: int):
+    token = request.headers.get("AUTHORIZATION")
+    Http.auth(token, ["ROLE_ADMIN"])
+
+    body = validate({
+        "enabled": field("integer", required=False, nullable=False, empty=False),
+        "email_verified": field("integer", required=False, nullable=False, empty=False),
+        "roles": field("list", required=False, nullable=False, empty=False)
+    }, request.get_json(force=True, silent=True))
+
+    user_update_user(body, user_id)
+
+    return "ok"

@@ -35,6 +35,11 @@ types = {
         "required": False,
         "nullable": True
     },
+    "list": {
+        "type": "list",
+        "required": False,
+        "nullable": True
+    },
     "dict": {
         "type": "dict",
         "required": False,

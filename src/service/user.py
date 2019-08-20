@@ -3,7 +3,7 @@ from src.entity.user import User
 from time import time
 from src.entity.user import Roles
 from src.util.password import encrypt, check
-from src.repo.user import insert, find_by_email, update_last_login_data, update_password, update_email_verified
+from src.repo.user import insert, find_by_email, find_by_id, update_last_login_data, update_password, update_email_verified, update_user as repo_update_user
 from pymysql import IntegrityError
 from src.errors.custom_error import CustomError
 from typing import Union
@@ -130,3 +130,19 @@ def resend_verification_email(email: str):
         )
 
     send_verification_email(user.email, encode(user.jwt_payload(), current_app.config["JWT_SECRET"], current_app.config["JWT_TTL"]))
+
+
+def update_user(params: dict, user_id: int):
+    user = find_by_id(user_id)
+
+    if not user:
+        raise CustomError(
+            message="Kullanici bulunamadi",
+            status_code=401,
+        )
+
+    user.enabled = params["enabled"] if params.get("enabled") is not None else user.enabled
+    user.email_verified = params["email_verified"] if params.get("email_verified") is not None else user.email_verified
+    user.roles = params["roles"] if params.get("roles") is not None else user.roles
+
+    repo_update_user(user)
