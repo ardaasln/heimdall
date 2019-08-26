@@ -10,5 +10,5 @@ MYSQL_CHARSET = 'utf8'
 JWT_SECRET = 'iejYqrkB5RJkR8w0mPXiNONH3BIIdDAne8tkD2PipBOA7kyLCvju1NNfblJhSDgo4knHydxoML6FHr1p0G15l3Puz38OVAAii0Hx'
 JWT_TTL = 1440  # in minutes
 
-BASE_URL = "http://sporplatz.surge.sh/"
+BASE_URL = "http://sporplatz.surge.sh"
 
