@@ -15,7 +15,9 @@ def send_verification_email(destination: str, token: str):
 
     doc = pq(f.read())
 
-    doc("#verification-link").attr("href", "http://localhost:3000/verify/{}".format(token))
+    base_url = current_app.config["BASE_URL"]
+
+    doc("#verification-link").attr("href", "{}/verify/{}".format(base_url, token))
 
     current_app.logger.debug("Attempting to send an verification email to: {}".format(destination))
 
@@ -62,7 +64,9 @@ def send_forgot_password_email(destination: str, token: str, name: str):
 
     doc = pq(f.read())
 
-    doc("#reset-link").attr("href", "http://localhost:3000/password-reset/{}".format(token))
+    base_url = current_app.config["BASE_URL"]
+
+    doc("#reset-link").attr("href", "{}/password-reset/{}".format(base_url, token))
 
     doc("#user-name").text(name)
 
