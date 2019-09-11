@@ -7,4 +7,4 @@ python3 -m venv venv
 export FLASK_APP=app.py
 export FLASK_ENV=production
 pip install -e .
-flask run --host=0.0.0.0 > /tmp/heimdall.log 2>&1
+gunicorn -w 4 --bind 0.0.0.0 --log-level=info --log-file=/tmp/heimdall.log app:app

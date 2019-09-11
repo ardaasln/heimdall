@@ -15,6 +15,7 @@ setup(
         'flask-cors',
         'pyquery',
         'boto3',
-        'botocore'
+        'botocore',
+        'gunicorn'
     ],
 )
